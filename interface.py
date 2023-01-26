@@ -50,9 +50,10 @@ class User(Player):
 
 
 class Game:
-    def __init__(self, size):
-        self.size = size
-        self.lengths_of_ships = [3, 2, 1, 1, 1, 1]
+    def __init__(self, size, ships=6):
+        self.size = 6 if size < 5 else size
+        self.ships = 8 if ships > 6 and self.size > 7 else 6
+        self.lengths_of_ships = {6: [3, 2, 1, 1, 1, 1], 8: [4, 3, 3, 2, 1, 1, 1, 1]}
         player = self.random_board()
         comp = self.random_board()
         comp.hid = True
@@ -63,7 +64,7 @@ class Game:
     def generate_board(self):
         board = Board(size=self.size)
         attempts = 0
-        for length in self.lengths_of_ships:
+        for length in self.lengths_of_ships[self.ships]:
             while True:
                 attempts += 1
                 if attempts > 2000:
@@ -111,11 +112,9 @@ class Game:
             if turn % 2 == 0:
                 print('Ходит пользователь!')
                 repeat = self.user.move()
-                print('\n' * 2)
             else:
                 print('Ходит компьютер!')
                 repeat = self.ai.move()
-                print('\n' * 2)
             if repeat:
                 turn -= 1
 

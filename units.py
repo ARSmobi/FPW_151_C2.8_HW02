@@ -107,14 +107,14 @@ class Board:
                 if not ship.lives:
                     self.destroyed += 1
                     self.contour(ship, offset_visible=True)
-                    print('Корабль уничтожен!')
+                    print('\nКорабль уничтожен!')
                     return False
                 else:
-                    print('Корабль поврежден!')
+                    print('\nКорабль поврежден!')
                     return True
 
         self.board_field[target.x][target.y] = '.'
-        print('Мимо!')
+        print('\nМимо!')
         return False
 
     def begin(self):
