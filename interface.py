@@ -95,16 +95,19 @@ class Game:
 |     y - номер столбца   |
 ---------------------------''')
 
+    def boards_refresh(self):
+        user_board = self.user.board.__str__().split('\n')
+        comp_board = self.ai.board.__str__().split('\n')
+        print('-' * (self.size * 5))
+        print('Доска пользователя:'.ljust(self.size * 5), 'Доска компьютера:')
+        for row_user, row_comp in zip(user_board, comp_board):
+            print(str(row_user).ljust(self.size * 5), row_comp)
+        print('-' * (self.size * 5))
+
     def loop(self):
         turn = 0
         while True:
-            user_board = self.user.board.__str__().split('\n')
-            comp_board = self.ai.board.__str__().split('\n')
-            print('-' * (self.size * 5))
-            print('Доска пользователя:'.ljust(self.size * 5), 'Доска компьютера:')
-            for row_user, row_comp in zip(user_board, comp_board):
-                print(str(row_user).ljust(self.size * 5), row_comp)
-            print('-' * (self.size * 5))
+            self.boards_refresh()
             if turn % 2 == 0:
                 print('Ходит пользователь!')
                 repeat = self.user.move()
@@ -117,10 +120,12 @@ class Game:
                 turn -= 1
 
             if self.ai.board.destroyed == len(self.lengths_of_ships):
+                self.boards_refresh()
                 print('Пользователь выиграл!')
                 break
 
             if self.user.board.destroyed == len(self.lengths_of_ships):
+                self.boards_refresh()
                 print('Компьютер выиграл!')
                 break
             turn += 1
